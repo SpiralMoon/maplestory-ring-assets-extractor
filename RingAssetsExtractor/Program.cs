@@ -139,6 +139,9 @@ try
             Wz_Node nodeIconRawCanvas = nodeIconRaw.GetLinkedSourceNode(wzFile);
             Wz_Png pngIconRaw = nodeIconRawCanvas.GetValue<Wz_Png>();
 
+            // Extract and save to .png file
+            pngIconRaw.SaveToPng(Path.Combine(imagesDir, $"{imgNodeRing.Text}.iconRaw.png"));
+
             Wz_Node nodeChatBalloon = nodeRingInfo.Nodes["chatBalloon"];
             Wz_Node nodeNameTag = nodeRingInfo.Nodes["nameTag"];
 
@@ -189,6 +192,9 @@ try
                 {
                     Wz_Node nodeSliceCanvas = nodeSlice.GetLinkedSourceNode(wzFile);
                     Wz_Png pngSlice = nodeSliceCanvas.GetValue<Wz_Png>();
+
+                    // Extract and save to .png file
+                    pngSlice.SaveToPng(Path.Combine(imagesDir, $"{nodeSlice.FullPath.Replace("\\", ".")}.png"));
                 }
 
                 Slice slice = new();
@@ -245,6 +251,20 @@ catch (Exception e)
 }
 
 Console.WriteLine("Ring parse finished.");
+
+#endregion
+
+#region write ring.json
+
+string jsonOutputPath = Path.Combine(outputDir, "ring.json");
+
+using (var writer = new StreamWriter(jsonOutputPath))
+{
+    var jsonStr = Newtonsoft.Json.JsonConvert.SerializeObject(output, Newtonsoft.Json.Formatting.Indented);
+    writer.Write(jsonStr);
+
+    Console.WriteLine($"Ring data exported to {jsonOutputPath}");
+}
 
 #endregion
 
