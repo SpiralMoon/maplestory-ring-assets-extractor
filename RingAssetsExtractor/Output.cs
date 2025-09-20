@@ -7,6 +7,7 @@ namespace RingAssetsExtractor
     /// </summary>
     public class Output
     {
+        [JsonProperty("rings")]
         public List<Ring> Rings { get; set; } = new List<Ring>();
     }
 
