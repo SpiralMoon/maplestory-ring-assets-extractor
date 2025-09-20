@@ -233,7 +233,7 @@ try
             
             // Parse ring text color
             Wz_Node nodeClr = nodeRingGraphic.Nodes["clr"];
-            string color = $"#{nodeClr.GetValue<int>():X6}"; // Convert integer to RGB hex
+            string color = $"#{nodeClr.GetValue<int>():X8}"; // Convert integer to ARGB hex
 
             // Parse ring imgName, description
             Wz_Node nodeRingString = imgString.Node.FindNodeByPath($"Eqp\\Ring\\{int.Parse(ringEqpCode)}");
