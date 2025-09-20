@@ -38,6 +38,9 @@ namespace RingAssetsExtractor
     {
         [JsonProperty("origin")]
         public Origin Origin { get; set; } = new Origin();
+
+        [JsonProperty("size")]
+        public Size Size { get; set; } = new Size();
     }
 
     public class Origin
@@ -47,5 +50,13 @@ namespace RingAssetsExtractor
 
         [JsonProperty("y")]
         public int Y { get; set; }
+    }
+    public class Size
+    {
+        [JsonProperty("w")]
+        public int Width { get; set; }
+
+        [JsonProperty("h")]
+        public int Height { get; set; }
     }
 }

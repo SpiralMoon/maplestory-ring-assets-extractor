@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using RingAssetsExtractor;
+using System.Drawing;
 using WzComparerR2.WzLib;
 
 Console.WriteLine("Start");
@@ -188,6 +189,8 @@ try
 
             foreach (Wz_Node nodeSlice in nodeSlices)
             {
+                Slice slice = new();
+
                 if (nodeSlice.GetValue<Wz_Png>() != null)
                 {
                     Wz_Node nodeSliceCanvas = nodeSlice.GetLinkedSourceNode(wzFile);
@@ -195,9 +198,14 @@ try
 
                     // Extract and save to .png file
                     pngSlice.SaveToPng(Path.Combine(imagesDir, $"{nodeSlice.FullPath.Replace("\\", ".")}.png"));
-                }
 
-                Slice slice = new();
+                    Bitmap bitmap = pngSlice.ExtractPng();
+                    slice.Size = new()
+                    {
+                        Height = bitmap.Height,
+                        Width = bitmap.Width,
+                    };
+                }
 
                 // Parse ring slice image vector
                 foreach (Wz_Node nodeSliceProperty in nodeSlice.Nodes)
