@@ -55,7 +55,7 @@ $ dotnet run
 - 명찰 슬라이스 이미지 파일 (w, c, e)
   <img width="912" height="541" alt="image" src="https://github.com/user-attachments/assets/b0bfb2d6-42ad-4271-9c30-be45bb065d8f" />
 ### Ring Information
-- 출력 위치 : `ring.json`
+- 출력 위치 : `output/ring.json`
 ```json
 {
   "rings": [

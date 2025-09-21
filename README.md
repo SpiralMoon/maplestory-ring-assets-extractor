@@ -55,7 +55,7 @@ $ dotnet run
 - Name tag slice image files (w, c, e)
   <img width="912" height="541" alt="image" src="https://github.com/user-attachments/assets/b0bfb2d6-42ad-4271-9c30-be45bb065d8f" />
 ### Ring Information
-- Output location: `ring.json`
+- Output location: `output/ring.json`
 ```json
 {
   "rings": [
