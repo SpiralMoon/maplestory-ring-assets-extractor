@@ -54,6 +54,8 @@ $ dotnet run
   <img width="912" height="541" alt="image" src="https://github.com/user-attachments/assets/50829117-1d96-4dc9-9c5b-a0eb9c750e5e" />
 - Name tag slice image files (w, c, e)
   <img width="912" height="541" alt="image" src="https://github.com/user-attachments/assets/b0bfb2d6-42ad-4271-9c30-be45bb065d8f" />
+
+**Note**: For animated images, only the first frame is extracted and saved. (ex, 01115609)
 ### Ring Information
 - Output location: `output/ring.json`
 ```json
