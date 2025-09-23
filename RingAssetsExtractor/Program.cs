@@ -184,8 +184,10 @@ try
             string[] sliceNodeNames = { "head", "nw", "n", "ne", "w", "c", "e", "sw", "s", "se", "arrow" };
             List<Wz_Node> nodeSlices;
 
+            bool isAnimationRing = nodeRingGraphic.Nodes["0"] != null && nodeRingGraphic.Nodes["1"] != null;
+
             // Animation => Select only first frame
-            if (nodeRingGraphic.Nodes["0"] != null && nodeRingGraphic.Nodes["1"] != null)
+            if (isAnimationRing)
             {
                 nodeSlices = nodeRingGraphic
                     .Nodes["0"]
@@ -211,8 +213,14 @@ try
                     Wz_Node nodeSliceCanvas = nodeSlice.GetLinkedSourceNode(wzFile);
                     Wz_Png pngSlice = nodeSliceCanvas.GetValue<Wz_Png>();
 
+                    string slicePngName = $"{nodeSlice.FullPath.Replace("\\", ".")}.png";
+                    if (isAnimationRing)
+                    {
+                        slicePngName = slicePngName.Replace(".0.", ".");
+                    }
+
                     // Extract and save to .png file
-                    pngSlice.SaveToPng(Path.Combine(imagesDir, $"{nodeSlice.FullPath.Replace("\\", ".")}.png"));
+                    pngSlice.SaveToPng(Path.Combine(imagesDir, slicePngName));
 
                     Bitmap bitmap = pngSlice.ExtractPng();
                     slice.Size = new()
