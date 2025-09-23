@@ -54,6 +54,8 @@ $ dotnet run
   <img width="912" height="541" alt="image" src="https://github.com/user-attachments/assets/50829117-1d96-4dc9-9c5b-a0eb9c750e5e" />
 - 명찰 슬라이스 이미지 파일 (w, c, e)
   <img width="912" height="541" alt="image" src="https://github.com/user-attachments/assets/b0bfb2d6-42ad-4271-9c30-be45bb065d8f" />
+
+**참고**: 애니메이션이 포함된 이미지의 경우 첫 번째 프레임만 추출되어 저장됩니다. (예시, 01115609)
 ### Ring Information
 - 출력 위치 : `output/ring.json`
 ```json
