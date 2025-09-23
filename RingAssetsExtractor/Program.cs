@@ -182,10 +182,25 @@ try
             // nameTag : w, c, e
             // chatBalloon : head, nw, n, ne, w, c, e, sw, s, se, arrow
             string[] sliceNodeNames = { "head", "nw", "n", "ne", "w", "c", "e", "sw", "s", "se", "arrow" };
-            List<Wz_Node> nodeSlices = nodeRingGraphic
-                .Nodes
-                .Where(n => sliceNodeNames.Contains(n.Text))
-                .ToList();
+            List<Wz_Node> nodeSlices;
+
+            // Animation => Select only first frame
+            if (nodeRingGraphic.Nodes["0"] != null && nodeRingGraphic.Nodes["1"] != null)
+            {
+                nodeSlices = nodeRingGraphic
+                    .Nodes["0"]
+                    .Nodes
+                    .Where(n => sliceNodeNames.Contains(n.Text))
+                    .ToList();
+            }
+            // Non-Animation (default)
+            else
+            {
+                nodeSlices = nodeRingGraphic
+                    .Nodes
+                    .Where(n => sliceNodeNames.Contains(n.Text))
+                    .ToList();
+            }
 
             foreach (Wz_Node nodeSlice in nodeSlices)
             {
