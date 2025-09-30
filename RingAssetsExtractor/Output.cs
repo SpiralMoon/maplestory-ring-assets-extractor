@@ -31,11 +31,20 @@ namespace RingAssetsExtractor
         [JsonProperty("color")]
         public string Color { get; set; } = string.Empty;
 
-        [JsonProperty("slices")]
-        public Dictionary<string, Slice> Slices { get; set; } = new Dictionary<string, Slice>();
+        [JsonProperty("is_animation")]
+        public bool IsAnimation { get; set; } = false;
+
+        [JsonProperty("height_offset")]
+        public int? HeightOffset { get; set; }
+
+        [JsonProperty("bottom_offset")]
+        public int? BottomOffset { get; set; }
+
+        [JsonProperty("images")]
+        public Dictionary<string, object> Images { get; set; } = new Dictionary<string, object>();
     }
 
-    public class Slice
+    public class ImageData
     {
         [JsonProperty("origin")]
         public Origin Origin { get; set; } = new Origin();
