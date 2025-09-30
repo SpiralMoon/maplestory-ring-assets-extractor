@@ -47,7 +47,7 @@ $ dotnet run
 
 ## Output Results
 ### Image File Output
-- 출력 위치 : `output/images/`
+- 출력 위치: `output/images/`
 - 반지 아이템 아이콘 이미지 파일
   <img width="912" height="541" alt="image" src="https://github.com/user-attachments/assets/315ba262-c1c4-4211-ac78-a0b8dce8bd54" />
 - 말풍선 슬라이스 이미지 파일 (head, nw, n, ne, w, c, e, sw, s, se, arrow)
@@ -55,9 +55,14 @@ $ dotnet run
 - 명찰 슬라이스 이미지 파일 (w, c, e)
   <img width="912" height="541" alt="image" src="https://github.com/user-attachments/assets/b0bfb2d6-42ad-4271-9c30-be45bb065d8f" />
 
-**참고**: 애니메이션이 포함된 이미지의 경우 첫 번째 프레임만 추출되어 저장됩니다. (예시, 01115609)
 ### Ring Information
-- 출력 위치 : `output/ring.json`
+- 출력 위치: `output/ring.json`
+
+반지 유형에 따라 출력되는 json의 구조가 다릅니다. 아래 예시에서 확인 바랍니다.
+
+<details>
+<summary><b>말풍선 (애니메이션이 없는 경우)</b></summary>
+
 ```json
 {
   "rings": [
@@ -68,7 +73,10 @@ $ dotnet run
       "name": "최초의 대적자 말풍선 반지",
       "desc": "캐릭터가 대화를 할 때, 최초의 대적자 말풍선이 나타난다. ",
       "color": "#FFC6C4CC",
-      "slices": {
+      "is_animation": false,
+      "height_offset": null,
+      "bottom_offset": null,
+      "images": {
         "nw": {
           "origin": {
             "x": 41,
@@ -181,6 +189,717 @@ $ dotnet run
         }
       }
     },
+    ... other rings
+  ]
+}
+```
+
+</details>
+
+<details>
+<summary><b>말풍선 (애니메이션이 있는 경우)</b></summary>
+
+```json
+{
+  "rings": [
+    {
+      "eqp_code": "01115609",
+      "type": "ChatBalloon",
+      "ring_code": "472",
+      "name": "MVP 블랙 말풍선 반지",
+      "desc": "#cMVP 블랙# 등급에 주어지는 말풍선 반지다.",
+      "color": "#FFFFFFFF",
+      "is_animation": true,
+      "height_offset": null,
+      "bottom_offset": null,
+      "images": {
+        "0": {
+          "nw": {
+            "origin": {
+              "x": 24,
+              "y": 26
+            },
+            "size": {
+              "w": 24,
+              "h": 26
+            }
+          },
+          "n": {
+            "origin": {
+              "x": 0,
+              "y": 26
+            },
+            "size": {
+              "w": 14,
+              "h": 26
+            }
+          },
+          "head": {
+            "origin": {
+              "x": 0,
+              "y": 29
+            },
+            "size": {
+              "w": 14,
+              "h": 29
+            }
+          },
+          "ne": {
+            "origin": {
+              "x": 0,
+              "y": 26
+            },
+            "size": {
+              "w": 23,
+              "h": 26
+            }
+          },
+          "w": {
+            "origin": {
+              "x": 22,
+              "y": 0
+            },
+            "size": {
+              "w": 22,
+              "h": 14
+            }
+          },
+          "c": {
+            "origin": {
+              "x": 0,
+              "y": 0
+            },
+            "size": {
+              "w": 14,
+              "h": 14
+            }
+          },
+          "e": {
+            "origin": {
+              "x": 0,
+              "y": 0
+            },
+            "size": {
+              "w": 21,
+              "h": 14
+            }
+          },
+          "sw": {
+            "origin": {
+              "x": 23,
+              "y": 0
+            },
+            "size": {
+              "w": 23,
+              "h": 27
+            }
+          },
+          "s": {
+            "origin": {
+              "x": 0,
+              "y": 0
+            },
+            "size": {
+              "w": 14,
+              "h": 26
+            }
+          },
+          "se": {
+            "origin": {
+              "x": 0,
+              "y": 0
+            },
+            "size": {
+              "w": 24,
+              "h": 26
+            }
+          },
+          "arrow": {
+            "origin": {
+              "x": 0,
+              "y": 0
+            },
+            "size": {
+              "w": 14,
+              "h": 26
+            }
+          }
+        },
+        "1": {
+          "nw": {
+            "origin": {
+              "x": 24,
+              "y": 26
+            },
+            "size": {
+              "w": 24,
+              "h": 26
+            }
+          },
+          "n": {
+            "origin": {
+              "x": 0,
+              "y": 26
+            },
+            "size": {
+              "w": 14,
+              "h": 26
+            }
+          },
+          "head": {
+            "origin": {
+              "x": 0,
+              "y": 28
+            },
+            "size": {
+              "w": 14,
+              "h": 28
+            }
+          },
+          "ne": {
+            "origin": {
+              "x": 0,
+              "y": 26
+            },
+            "size": {
+              "w": 23,
+              "h": 26
+            }
+          },
+          "w": {
+            "origin": {
+              "x": 22,
+              "y": 0
+            },
+            "size": {
+              "w": 22,
+              "h": 14
+            }
+          },
+          "c": {
+            "origin": {
+              "x": 0,
+              "y": 0
+            },
+            "size": {
+              "w": 14,
+              "h": 14
+            }
+          },
+          "e": {
+            "origin": {
+              "x": 0,
+              "y": 0
+            },
+            "size": {
+              "w": 21,
+              "h": 14
+            }
+          },
+          "sw": {
+            "origin": {
+              "x": 24,
+              "y": 0
+            },
+            "size": {
+              "w": 24,
+              "h": 27
+            }
+          },
+          "s": {
+            "origin": {
+              "x": 0,
+              "y": 0
+            },
+            "size": {
+              "w": 14,
+              "h": 26
+            }
+          },
+          "se": {
+            "origin": {
+              "x": 0,
+              "y": 0
+            },
+            "size": {
+              "w": 24,
+              "h": 26
+            }
+          },
+          "arrow": {
+            "origin": {
+              "x": 0,
+              "y": 0
+            },
+            "size": {
+              "w": 14,
+              "h": 26
+            }
+          }
+        },
+        "2": {
+          "nw": {
+            "origin": {
+              "x": 24,
+              "y": 26
+            },
+            "size": {
+              "w": 24,
+              "h": 26
+            }
+          },
+          "n": {
+            "origin": {
+              "x": 0,
+              "y": 26
+            },
+            "size": {
+              "w": 14,
+              "h": 26
+            }
+          },
+          "head": {
+            "origin": {
+              "x": 0,
+              "y": 26
+            },
+            "size": {
+              "w": 14,
+              "h": 26
+            }
+          },
+          "ne": {
+            "origin": {
+              "x": 0,
+              "y": 26
+            },
+            "size": {
+              "w": 24,
+              "h": 26
+            }
+          },
+          "w": {
+            "origin": {
+              "x": 22,
+              "y": 0
+            },
+            "size": {
+              "w": 22,
+              "h": 14
+            }
+          },
+          "c": {
+            "origin": {
+              "x": 0,
+              "y": 0
+            },
+            "size": {
+              "w": 14,
+              "h": 14
+            }
+          },
+          "e": {
+            "origin": {
+              "x": 0,
+              "y": 0
+            },
+            "size": {
+              "w": 21,
+              "h": 14
+            }
+          },
+          "sw": {
+            "origin": {
+              "x": 24,
+              "y": 0
+            },
+            "size": {
+              "w": 24,
+              "h": 27
+            }
+          },
+          "s": {
+            "origin": {
+              "x": 0,
+              "y": 0
+            },
+            "size": {
+              "w": 14,
+              "h": 26
+            }
+          },
+          "se": {
+            "origin": {
+              "x": 0,
+              "y": 0
+            },
+            "size": {
+              "w": 24,
+              "h": 26
+            }
+          },
+          "arrow": {
+            "origin": {
+              "x": 0,
+              "y": 0
+            },
+            "size": {
+              "w": 14,
+              "h": 26
+            }
+          }
+        },
+        "3": {
+          "nw": {
+            "origin": {
+              "x": 24,
+              "y": 26
+            },
+            "size": {
+              "w": 24,
+              "h": 26
+            }
+          },
+          "n": {
+            "origin": {
+              "x": 0,
+              "y": 26
+            },
+            "size": {
+              "w": 14,
+              "h": 26
+            }
+          },
+          "head": {
+            "origin": {
+              "x": 0,
+              "y": 26
+            },
+            "size": {
+              "w": 14,
+              "h": 26
+            }
+          },
+          "ne": {
+            "origin": {
+              "x": 0,
+              "y": 26
+            },
+            "size": {
+              "w": 23,
+              "h": 26
+            }
+          },
+          "w": {
+            "origin": {
+              "x": 22,
+              "y": 0
+            },
+            "size": {
+              "w": 22,
+              "h": 14
+            }
+          },
+          "c": {
+            "origin": {
+              "x": 0,
+              "y": 0
+            },
+            "size": {
+              "w": 14,
+              "h": 14
+            }
+          },
+          "e": {
+            "origin": {
+              "x": 0,
+              "y": 0
+            },
+            "size": {
+              "w": 21,
+              "h": 14
+            }
+          },
+          "sw": {
+            "origin": {
+              "x": 23,
+              "y": 0
+            },
+            "size": {
+              "w": 23,
+              "h": 27
+            }
+          },
+          "s": {
+            "origin": {
+              "x": 0,
+              "y": 0
+            },
+            "size": {
+              "w": 14,
+              "h": 26
+            }
+          },
+          "se": {
+            "origin": {
+              "x": 0,
+              "y": 0
+            },
+            "size": {
+              "w": 24,
+              "h": 26
+            }
+          },
+          "arrow": {
+            "origin": {
+              "x": 0,
+              "y": 0
+            },
+            "size": {
+              "w": 14,
+              "h": 27
+            }
+          }
+        },
+        "4": {
+          "nw": {
+            "origin": {
+              "x": 24,
+              "y": 26
+            },
+            "size": {
+              "w": 24,
+              "h": 26
+            }
+          },
+          "n": {
+            "origin": {
+              "x": 0,
+              "y": 26
+            },
+            "size": {
+              "w": 14,
+              "h": 26
+            }
+          },
+          "head": {
+            "origin": {
+              "x": 0,
+              "y": 26
+            },
+            "size": {
+              "w": 14,
+              "h": 26
+            }
+          },
+          "ne": {
+            "origin": {
+              "x": 0,
+              "y": 26
+            },
+            "size": {
+              "w": 23,
+              "h": 26
+            }
+          },
+          "w": {
+            "origin": {
+              "x": 22,
+              "y": 0
+            },
+            "size": {
+              "w": 22,
+              "h": 14
+            }
+          },
+          "c": {
+            "origin": {
+              "x": 0,
+              "y": 0
+            },
+            "size": {
+              "w": 14,
+              "h": 14
+            }
+          },
+          "e": {
+            "origin": {
+              "x": 0,
+              "y": 0
+            },
+            "size": {
+              "w": 21,
+              "h": 14
+            }
+          },
+          "sw": {
+            "origin": {
+              "x": 23,
+              "y": 0
+            },
+            "size": {
+              "w": 23,
+              "h": 27
+            }
+          },
+          "s": {
+            "origin": {
+              "x": 0,
+              "y": 0
+            },
+            "size": {
+              "w": 14,
+              "h": 26
+            }
+          },
+          "se": {
+            "origin": {
+              "x": 0,
+              "y": 0
+            },
+            "size": {
+              "w": 24,
+              "h": 26
+            }
+          },
+          "arrow": {
+            "origin": {
+              "x": 0,
+              "y": 0
+            },
+            "size": {
+              "w": 14,
+              "h": 27
+            }
+          }
+        },
+        "5": {
+          "nw": {
+            "origin": {
+              "x": 24,
+              "y": 26
+            },
+            "size": {
+              "w": 24,
+              "h": 26
+            }
+          },
+          "n": {
+            "origin": {
+              "x": 0,
+              "y": 26
+            },
+            "size": {
+              "w": 14,
+              "h": 26
+            }
+          },
+          "head": {
+            "origin": {
+              "x": 0,
+              "y": 28
+            },
+            "size": {
+              "w": 14,
+              "h": 28
+            }
+          },
+          "ne": {
+            "origin": {
+              "x": 0,
+              "y": 26
+            },
+            "size": {
+              "w": 23,
+              "h": 26
+            }
+          },
+          "w": {
+            "origin": {
+              "x": 22,
+              "y": 0
+            },
+            "size": {
+              "w": 22,
+              "h": 14
+            }
+          },
+          "c": {
+            "origin": {
+              "x": 0,
+              "y": 0
+            },
+            "size": {
+              "w": 14,
+              "h": 14
+            }
+          },
+          "e": {
+            "origin": {
+              "x": 0,
+              "y": 0
+            },
+            "size": {
+              "w": 21,
+              "h": 14
+            }
+          },
+          "sw": {
+            "origin": {
+              "x": 23,
+              "y": 0
+            },
+            "size": {
+              "w": 23,
+              "h": 29
+            }
+          },
+          "s": {
+            "origin": {
+              "x": 0,
+              "y": 0
+            },
+            "size": {
+              "w": 14,
+              "h": 26
+            }
+          },
+          "se": {
+            "origin": {
+              "x": 0,
+              "y": 0
+            },
+            "size": {
+              "w": 24,
+              "h": 26
+            }
+          },
+          "arrow": {
+            "origin": {
+              "x": 0,
+              "y": 0
+            },
+            "size": {
+              "w": 14,
+              "h": 27
+            }
+          }
+        }
+      }
+    },
+    ... other rings
+  ]
+}
+```
+
+</details>
+
+<details>
+<summary><b>명찰 (애니메이션이 없는 경우)</b></summary>
+
+```json
+{
+  "rings": [
     {
       "eqp_code": "01115755",
       "type": "NameTag",
@@ -188,7 +907,10 @@ $ dotnet run
       "name": "최초의 대적자 명찰 반지",
       "desc": "캐릭터 이름이 최초의 대적자 명찰에 나타난다. ",
       "color": "#FFC6C4CC",
-      "slices": {
+      "is_animation": false,
+      "height_offset": null,
+      "bottom_offset": null,
+      "images": {
         "w": {
           "origin": {
             "x": 46,
@@ -225,6 +947,163 @@ $ dotnet run
   ]
 }
 ```
+
+</details>
+
+<details>
+<summary><b>명찰 (애니메이션이 있는 경우)</b></summary>
+
+```json
+{
+  "rings": [
+    {
+      "eqp_code": "01115712",
+      "type": "NameTag",
+      "ring_code": "490",
+      "name": "MVP 블랙 명찰 반지",
+      "desc": "#cMVP 블랙# 등급에 주어지는 명찰 반지다.",
+      "color": "#FFFFFFFF",
+      "is_animation": true,
+      "height_offset": 10,
+      "bottom_offset": 0,
+      "images": {
+        "0": {
+          "0": {
+            "origin": {
+              "x": 42,
+              "y": 9
+            },
+            "size": {
+              "w": 84,
+              "h": 28
+            }
+          },
+          "1": {
+            "origin": {
+              "x": 42,
+              "y": 8
+            },
+            "size": {
+              "w": 84,
+              "h": 27
+            }
+          },
+          "2": {
+            "origin": {
+              "x": 42,
+              "y": 8
+            },
+            "size": {
+              "w": 84,
+              "h": 28
+            }
+          }
+        },
+        "1": {
+          "0": {
+            "origin": {
+              "x": 54,
+              "y": 9
+            },
+            "size": {
+              "w": 108,
+              "h": 28
+            }
+          },
+          "1": {
+            "origin": {
+              "x": 54,
+              "y": 8
+            },
+            "size": {
+              "w": 108,
+              "h": 27
+            }
+          },
+          "2": {
+            "origin": {
+              "x": 54,
+              "y": 8
+            },
+            "size": {
+              "w": 108,
+              "h": 28
+            }
+          }
+        },
+        "2": {
+          "0": {
+            "origin": {
+              "x": 66,
+              "y": 9
+            },
+            "size": {
+              "w": 132,
+              "h": 28
+            }
+          },
+          "1": {
+            "origin": {
+              "x": 66,
+              "y": 8
+            },
+            "size": {
+              "w": 132,
+              "h": 27
+            }
+          },
+          "2": {
+            "origin": {
+              "x": 66,
+              "y": 8
+            },
+            "size": {
+              "w": 132,
+              "h": 28
+            }
+          }
+        },
+        "3": {
+          "0": {
+            "origin": {
+              "x": 76,
+              "y": 16
+            },
+            "size": {
+              "w": 172,
+              "h": 43
+            }
+          },
+          "1": {
+            "origin": {
+              "x": 76,
+              "y": 16
+            },
+            "size": {
+              "w": 169,
+              "h": 43
+            }
+          },
+          "2": {
+            "origin": {
+              "x": 76,
+              "y": 16
+            },
+            "size": {
+              "w": 170,
+              "h": 43
+            }
+          }
+        }
+      }
+    },
+    ... other rings
+  ]
+}
+```
+
+</details>
+
 
 ## Dependencies
 
