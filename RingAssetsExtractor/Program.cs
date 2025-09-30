@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using RingAssetsExtractor;
 using System.Drawing;
+using System.Net.NetworkInformation;
 using WzComparerR2.WzLib;
 
 Console.WriteLine("Start");
@@ -174,86 +175,152 @@ try
                 continue;
             }
 
+            bool isAnimationRing = nodeRingGraphic.HasAnimation();
+
             Ring ring = new Ring();
             ring.EqpCode = ringEqpCode;
             ring.Type = type;
             ring.RingCode = ringRefCode.ToString();
+            ring.IsAnimation = isAnimationRing;
 
             // nameTag : w, c, e
             // chatBalloon : head, nw, n, ne, w, c, e, sw, s, se, arrow
             string[] sliceNodeNames = { "head", "nw", "n", "ne", "w", "c", "e", "sw", "s", "se", "arrow" };
-            List<Wz_Node> nodeSlices;
 
-            bool isAnimationRing = nodeRingGraphic.Nodes["0"] != null && nodeRingGraphic.Nodes["1"] != null;
-
-            // Animation => Select only first frame
+            // Animation (Process all frames)
             if (isAnimationRing)
             {
-                nodeSlices = nodeRingGraphic
-                    .Nodes["0"]
-                    .Nodes
-                    .Where(n => sliceNodeNames.Contains(n.Text))
+                string[] aniFrameNodeNames = { "0", "1", "2" };
+
+                List<Wz_Node> nodeFrames = nodeRingGraphic.Nodes
+                    .Where(node => int.TryParse(node.Text, out _))
+                    .OrderBy(node => int.Parse(node.Text))
                     .ToList();
+
+                foreach (Wz_Node nodeFrame in nodeFrames)
+                {
+                    Dictionary<string, ImageData> frame = [];
+
+                    List<Wz_Node> nodeSlicesOrSprites = isChatBalloon
+                        ? nodeFrame
+                           .Nodes
+                           .Where(n => sliceNodeNames.Contains(n.Text))
+                           .ToList()
+                        : nodeFrame
+                           .Nodes
+                           .Where(n => aniFrameNodeNames.Contains(n.Text))
+                           .ToList();
+
+                    foreach (Wz_Node nodeSliceOrSprite in nodeSlicesOrSprites)
+                    {
+                        ImageData sliceOrSprite = new();
+
+                        if (nodeSliceOrSprite.GetValue<Wz_Png>() != null)
+                        {
+                            Wz_Node nodeSliceOrSpriteCanvas = nodeSliceOrSprite.GetLinkedSourceNode(wzFile);
+                            Wz_Png pngSliceOrSprite = nodeSliceOrSpriteCanvas.GetValue<Wz_Png>();
+
+                            string slicePngName = $"{nodeSliceOrSprite.FullPath.Replace("\\", ".")}.png";
+
+                            // Extract and save to .png file
+                            pngSliceOrSprite.SaveToPng(Path.Combine(imagesDir, slicePngName));
+
+                            Bitmap bitmap = pngSliceOrSprite.ExtractPng();
+                            sliceOrSprite.Size = new()
+                            {
+                                Height = bitmap.Height,
+                                Width = bitmap.Width,
+                            };
+                        }
+
+                        // Parse ring sprite image vector
+                        foreach (Wz_Node nodeSliceProperty in nodeSliceOrSprite.Nodes)
+                        {
+                            var key = nodeSliceProperty.Text;
+                            var vector = nodeSliceProperty.GetValue<Wz_Vector>();
+
+                            if (key == "origin" && vector != null)
+                            {
+                                var x = vector.X;
+                                var y = vector.Y;
+
+                                Origin origin = new()
+                                {
+                                    X = x,
+                                    Y = y
+                                };
+
+                                sliceOrSprite.Origin = origin;
+                            }
+                        }
+
+                        frame.Add(nodeSliceOrSprite.Text, sliceOrSprite);
+                    }
+
+                    ring.Images.Add(nodeFrame.Text, frame);
+                }
+
+                if (isNameTag)
+                {
+                    ring.HeightOffset = nodeRingGraphic.Nodes["heightoffset"].GetValue<int?>();
+                    ring.BottomOffset = nodeRingGraphic.Nodes["bottomoffset"].GetValue<int?>();
+                }
             }
             // Non-Animation (default)
             else
             {
-                nodeSlices = nodeRingGraphic
+                List<Wz_Node> nodeSlices = nodeRingGraphic
                     .Nodes
                     .Where(n => sliceNodeNames.Contains(n.Text))
                     .ToList();
-            }
 
-            foreach (Wz_Node nodeSlice in nodeSlices)
-            {
-                Slice slice = new();
-
-                if (nodeSlice.GetValue<Wz_Png>() != null)
+                foreach (Wz_Node nodeSlice in nodeSlices)
                 {
-                    Wz_Node nodeSliceCanvas = nodeSlice.GetLinkedSourceNode(wzFile);
-                    Wz_Png pngSlice = nodeSliceCanvas.GetValue<Wz_Png>();
+                    ImageData slice = new();
 
-                    string slicePngName = $"{nodeSlice.FullPath.Replace("\\", ".")}.png";
-                    if (isAnimationRing)
+                    if (nodeSlice.GetValue<Wz_Png>() != null)
                     {
-                        slicePngName = slicePngName.Replace(".0.", ".");
-                    }
+                        Wz_Node nodeSliceCanvas = nodeSlice.GetLinkedSourceNode(wzFile);
+                        Wz_Png pngSlice = nodeSliceCanvas.GetValue<Wz_Png>();
 
-                    // Extract and save to .png file
-                    pngSlice.SaveToPng(Path.Combine(imagesDir, slicePngName));
+                        string slicePngName = $"{nodeSlice.FullPath.Replace("\\", ".")}.png";
 
-                    Bitmap bitmap = pngSlice.ExtractPng();
-                    slice.Size = new()
-                    {
-                        Height = bitmap.Height,
-                        Width = bitmap.Width,
-                    };
-                }
+                        // Extract and save to .png file
+                        pngSlice.SaveToPng(Path.Combine(imagesDir, slicePngName));
 
-                // Parse ring slice image vector
-                foreach (Wz_Node nodeSliceProperty in nodeSlice.Nodes)
-                {
-                    var key = nodeSliceProperty.Text;
-                    var vector = nodeSliceProperty.GetValue<Wz_Vector>();
-
-                    if (key == "origin" && vector != null)
-                    {
-                        var x = vector.X;
-                        var y = vector.Y;
-
-                        Origin origin = new()
+                        Bitmap bitmap = pngSlice.ExtractPng();
+                        slice.Size = new()
                         {
-                            X = x,
-                            Y = y
+                            Height = bitmap.Height,
+                            Width = bitmap.Width,
                         };
-
-                        slice.Origin = origin;
                     }
-                }
 
-                ring.Slices.Add(nodeSlice.Text, slice);
+                    // Parse ring sprite image vector
+                    foreach (Wz_Node nodeSliceProperty in nodeSlice.Nodes)
+                    {
+                        var key = nodeSliceProperty.Text;
+                        var vector = nodeSliceProperty.GetValue<Wz_Vector>();
+
+                        if (key == "origin" && vector != null)
+                        {
+                            var x = vector.X;
+                            var y = vector.Y;
+
+                            Origin origin = new()
+                            {
+                                X = x,
+                                Y = y
+                            };
+
+                            slice.Origin = origin;
+                        }
+                    }
+
+                    ring.Images.Add(nodeSlice.Text, slice);
+                }
             }
-            
+
             // Parse ring text color
             Wz_Node nodeClr = nodeRingGraphic.Nodes["clr"];
             string color = $"#{nodeClr.GetValue<int>():X8}"; // Convert integer to ARGB hex

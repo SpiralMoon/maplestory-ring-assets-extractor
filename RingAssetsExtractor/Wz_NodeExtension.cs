@@ -35,5 +35,14 @@ namespace RingAssetsExtractor
                 return node;
             }
         }
+
+        /// <summary>
+        /// Determines whether the specified node contains animation frames.
+        /// A node is considered to have animation if it contains child nodes "0", "1", and "2".
+        /// </summary>
+        public static bool HasAnimation (this Wz_Node node)
+        {
+            return new[] { "0", "1", "2" }.All(key => node.Nodes[key] != null);
+        }
     }
 }
